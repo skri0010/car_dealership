@@ -14,7 +14,7 @@ import logging
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-from car_dealership_full_stack.server.djangoapp.restapis import (
+from djangoapp.restapis import (
     analyze_review_sentiments,
     get_request,
     post_review,
