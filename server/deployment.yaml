@@ -20,7 +20,7 @@ spec:
         run: dealership
     spec:
       containers:
-        - image: skri0010/capstone-project
+        - image: us.icr.io/sn-labs-suchitskrish/dealership:latest
           imagePullPolicy: Always
           name: dealership
           ports:
