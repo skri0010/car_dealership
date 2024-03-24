@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
 import logging
 import json
+import sys
 from django.views.decorators.csrf import csrf_exempt
 
 from djangoapp.restapis import (
@@ -24,6 +25,7 @@ from .populate import initiate
 from .models import CarMake, CarModel
 
 # Get an instance of a logger
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -67,9 +69,21 @@ def get_cars(request):
 
 
 # Create a `registration` view to handle sign up request
-# @csrf_exempt
-# def registration(request):
-# ...
+@csrf_exempt
+def registration(request):
+    data = json.loads(request.body)
+    logger.info(f"Received data: {data}")
+    username = data["userName"]
+    password = data["password"]
+    email = data["email"]
+    try:
+        user = User.objects.create_user(
+            username=username, password=password, email=email
+        )
+        user.save()
+        return JsonResponse({"status": 200, "message": "Registration successful"})
+    except:
+        return JsonResponse({"status": 400, "message": "Registration failed"})
 
 
 # # Update the `get_dealerships` view to render the index page with
